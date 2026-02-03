@@ -1,74 +1,58 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
-
-// ──────────────── Simple Model ────────────────
 
 // ──────────────── Application Startup ────────────────
 var builder = WebApplication.CreateBuilder(args);
 
-// DbContext using InMemory (for initial testing without PostgreSQL)
+// DbContext with InMemory (for local testing)
+// Later, in Docker, we will switch to a real PostgreSQL database
 builder.Services.AddDbContext<TodoDbContext>(options =>
     options.UseInMemoryDatabase("TodoDb"));
 
-// Add Swagger
+// Add Swagger (already existed)
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Todo API Lite",
-        Version = "v1",
-        Description = "A simple API for managing a daily To-Do list",
-        Contact = new OpenApiContact
-        {
-            Name = "Ali Jenabi",
-            Email = "a.jenabi78@example.com"
-        }
-    });
-
-    // Optional: Enable XML comments (for better Swagger documentation)
-    // var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    // c.IncludeXmlComments(xmlPath);
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Enable Swagger UI in development environment
-if (app.Environment.IsDevelopment())
+// Allow Swagger in Development AND Production (or just remove the 'if' entirely)
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API Lite v1");
-        c.RoutePrefix = string.Empty;  // Open Swagger at root (http://localhost:xxxx/)
-        c.DocumentTitle = "Todo API Lite - Swagger";
-        c.DefaultModelsExpandDepth(-1); // Hide models by default
+        c.RoutePrefix = string.Empty; // This makes Swagger load at the root URL (/)
     });
 }
 
 // ──────────────── Minimal API Endpoints ────────────────
 app.MapGet("/todos", async (TodoDbContext db) =>
-    await db.Todos.ToListAsync())
-    .WithName("GetAllTodos");
+{
+    Console.WriteLine("GET /todos requested");
+    return await db.Todos.ToListAsync();
+})
+.WithName("GetAllTodos");
 
 app.MapGet("/todos/{id}", async (int id, TodoDbContext db) =>
 {
+    Console.WriteLine($"GET /todos/{id} requested");
     var todo = await db.Todos.FindAsync(id);
     return todo is null ? Results.NotFound() : Results.Ok(todo);
 })
-    .WithName("GetTodoById");
+.WithName("GetTodoById");
 
 app.MapPost("/todos", async (TodoItem todo, TodoDbContext db) =>
 {
+    Console.WriteLine($"POST /todos - Title: {todo.Title}");
     db.Todos.Add(todo);
     await db.SaveChangesAsync();
     return Results.Created($"/todos/{todo.Id}", todo);
 })
-    .WithName("CreateTodo");
+.WithName("CreateTodo");
 
 app.MapPut("/todos/{id}", async (int id, TodoItem input, TodoDbContext db) =>
 {
+    Console.WriteLine($"PUT /todos/{id} requested");
     var todo = await db.Todos.FindAsync(id);
     if (todo is null) return Results.NotFound();
 
@@ -78,10 +62,11 @@ app.MapPut("/todos/{id}", async (int id, TodoItem input, TodoDbContext db) =>
     await db.SaveChangesAsync();
     return Results.NoContent();
 })
-    .WithName("UpdateTodo");
+.WithName("UpdateTodo");
 
 app.MapDelete("/todos/{id}", async (int id, TodoDbContext db) =>
 {
+    Console.WriteLine($"DELETE /todos/{id} requested");
     var todo = await db.Todos.FindAsync(id);
     if (todo is null) return Results.NotFound();
 
@@ -89,11 +74,13 @@ app.MapDelete("/todos/{id}", async (int id, TodoDbContext db) =>
     await db.SaveChangesAsync();
     return Results.NoContent();
 })
-    .WithName("DeleteTodo");
+.WithName("DeleteTodo");
 
 // ──────────────── Run ────────────────
-app.Run();
+app.Run("http://0.0.0.0:8080");  // Port 8080 for Docker
 
+
+// ──────────────── Simple Model ────────────────
 public class TodoItem
 {
     public int Id { get; set; }

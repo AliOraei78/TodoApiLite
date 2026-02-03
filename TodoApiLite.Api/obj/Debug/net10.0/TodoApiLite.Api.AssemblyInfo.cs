@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TodoApiLite.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30c22c4024fe8bd1a2889f12c6687fa25f4c26ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("TodoApiLite.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TodoApiLite.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

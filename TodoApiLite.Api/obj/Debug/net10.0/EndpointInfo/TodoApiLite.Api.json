@@ -1,13 +1,8 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Todo API Lite",
-    "description": "یک API ساده برای مدیریت لیست کارهای روزانه (To-Do List)",
-    "contact": {
-      "name": "0xEncryptedx0",
-      "email": "your.email@example.com"
-    },
-    "version": "v1"
+    "title": "TodoApiLite.Api",
+    "version": "1.0"
   },
   "paths": {
     "/todos": {
@@ -157,5 +152,10 @@
         "additionalProperties": false
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "TodoApiLite.Api"
+    }
+  ]
 }
