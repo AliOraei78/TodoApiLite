@@ -1,4 +1,4 @@
-## Day 1: Docker + Docker Compose
+﻿## Day 1: Docker + Docker Compose
 
 **Completed Today:**
 - Docker Desktop successfully installed on Windows
@@ -29,3 +29,17 @@
 - Volume for persistent data
 - Network for container-to-container communication
 - Port mapping (-p) for external access
+
+## Day 3: Dockerfile Deep Dive & Docker Hub
+
+**Completed Today:**
+- Multi-stage Dockerfile for TodoApiLite (SDK → ASP.NET runtime)
+- Built image: todo-api-lite:latest (size ~210MB)
+- Tagged and pushed to Docker Hub: 0xencryptedx0/todo-api-lite:latest
+- Ran container and verified Swagger at http://localhost:8080/swagger
+
+**Key Learnings:**
+- Multi-stage build reduces final image size dramatically
+- docker build -t name:tag .
+- docker tag & docker push to Docker Hub
+- EXPOSE and port mapping (-p host:container)
