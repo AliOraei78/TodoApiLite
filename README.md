@@ -43,3 +43,19 @@
 - docker build -t name:tag .
 - docker tag & docker push to Docker Hub
 - EXPOSE and port mapping (-p host:container)
+
+Here is the **English translation**, with only the Persian parts translated:
+
+## Day 4: Advanced Docker Commands & Scripts
+
+**Commands Learned:**
+
+- docker inspect [container/image]`     # Full details
+- docker logs -f [container]`           # Follow live logs
+- docker exec -it [container] sh`       # Enter container shell
+- docker stats [container]`             # Monitor CPU / RAM / Network
+
+**Scripts:**
+
+- docker-utils.ps1`: Container management (start / stop / logs / exec / stats / build / clean)
+- cleanup.ps1`: Quick cleanup of unused containers and images
