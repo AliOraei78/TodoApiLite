@@ -59,3 +59,18 @@ Here is the **English translation**, with only the Persian parts translated:
 
 - docker-utils.ps1`: Container management (start / stop / logs / exec / stats / build / clean)
 - cleanup.ps1`: Quick cleanup of unused containers and images
+
+## Day 5: First Docker Compose - API + PostgreSQL
+
+**Completed Today:**
+- Created docker-compose.yml with two services: api (TodoApiLite) + db (PostgreSQL)
+- Used volumes for persistent PostgreSQL data
+- Ran multi-container app with `docker compose up --build`
+- Tested Swagger at http://localhost:8080/swagger
+- Used `docker compose down`, `logs`, `ps`
+
+**Commands Learned:**
+- docker compose up --build
+- docker compose down
+- docker compose logs [service]
+- docker compose ps
