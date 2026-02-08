@@ -222,3 +222,26 @@ Here is the **English translation**, with only the Persian parts translated:
 - docker compose up -d --build
 - docker compose ps / logs
 - Access Grafana → Add Prometheus data source → Import dashboard
+
+## Day 12: CI/CD with GitHub Actions – Build & Push Docker Image
+
+**Completed Today:**
+- Created GitHub Actions workflow: `docker-build-push.yml`
+- Automated:
+  - Build image on push to main
+  - Login to Docker Hub
+  - Push image to Docker Hub (`0xencryptedx0/todo-api-lite:latest`)
+- Added secrets: `DOCKER_USERNAME` & `DOCKER_PASSWORD` (PAT)
+- Tested pipeline with a small code change → successful run in Actions tab
+- Verified image on Docker Hub
+
+**Key Learnings:**
+- GitHub Actions workflows run on push/PR
+- Use `docker/login-action` for secure login
+- Secrets store sensitive data (never commit them)
+- Workflow triggers on `push` to `main`
+- Can extend for tests, deploy to server, etc.
+
+**Commands Used:**
+- git commit & push to trigger workflow
+- Check Actions tab in GitHub repo
