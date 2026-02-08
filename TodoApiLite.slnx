@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/.github/" />
   <Folder Name="/.github/workflows/">
-    <File Path="docker-build-push.yml" />
+    <File Path=".github/workflows/docker-build-push.yml" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".dockerignore" />
