@@ -196,7 +196,29 @@ Here is the **English translation**, with only the Persian parts translated:
 - docker stack ps/rm/services/scale
 - overlay network for multi-host communication
 
-**Next (Day 9):**
-- Monitoring: Prometheus + Grafana in Swarm
-- Secrets management in Swarm
-- First production-like Swarm setup
+## Day 11: Monitoring Stack – Prometheus, Grafana, cAdvisor
+
+**Completed Today:**
+- Added full monitoring stack to docker-compose.yml:
+  - cAdvisor: container metrics collector
+  - Prometheus: time-series database & alerting
+  - Grafana: beautiful dashboards & visualization
+- Configured prometheus.yml for scraping cAdvisor and Prometheus
+- Tested endpoints:
+  - cAdvisor: http://localhost:8081
+  - Prometheus: http://localhost:9090
+  - Grafana: http://localhost:3000 (login: admin/admin123)
+- Imported cAdvisor dashboard (ID 14282 or 193) in Grafana
+- Verified live metrics: CPU, RAM, Network usage of api & db containers
+
+**Key Learnings:**
+- cAdvisor exposes metrics at /metrics endpoint
+- Prometheus scrapes metrics from targets
+- Grafana visualizes Prometheus data with dashboards
+- Monitoring stack runs as services in the same network (todo-net)
+- Easy to scale and monitor production-like apps
+
+**Commands Used:**
+- docker compose up -d --build
+- docker compose ps / logs
+- Access Grafana → Add Prometheus data source → Import dashboard

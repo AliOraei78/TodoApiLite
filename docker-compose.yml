@@ -15,7 +15,6 @@
     networks:
       - todo-net
 
-
   db:
     image: postgres:16
     restart: always
@@ -38,6 +37,48 @@
     networks:
       - todo-net
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    ports:
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      - todo-net
+
+  prometheus:
+    image: prom/prometheus:v2.53.1
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - todo-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - todo-net
+    depends_on:
+      - prometheus
+
 secrets:
   postgres_password:
     file: ./postgres_password.txt
@@ -48,3 +89,5 @@ networks:
 
 volumes:
   postgres-data:
+  prometheus-data:
+  grafana-data:
