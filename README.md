@@ -261,3 +261,45 @@ Here is the **English translation**, with only the Persian parts translated:
 - `docker tag & docker push localhost:5000/image:latest`
 - Insecure registry: add to daemon.json and restart Docker
 - Production deployment: build on CI → push to registry → pull on server
+
+## Day 14: Advanced Docker Compose – Healthcheck, Restart Policy, Profiles
+
+**Completed Today:**
+- Deep dive into **Healthcheck** configuration in docker-compose.yml:
+  - Used `pg_isready` to check if PostgreSQL is truly ready to accept connections
+  - Configured `interval: 10s`, `timeout: 5s`, `retries: 10`, `start_period: 30s`
+  - Combined with `depends_on: condition: service_healthy` → API only starts when DB is healthy (prevents crash loops)
+- Implemented **Restart Policies** for reliability:
+  - `api`: `restart: on-failure` → restarts only on crash (non-zero exit code)
+  - `db`: `restart: unless-stopped` → always restarts unless manually stopped (ideal for databases)
+- Introduced **Profiles** to manage environments with one file:
+  - `["dev", "prod"]` on api and db → run in both environments
+  - `["dev"]` on pgadmin → only starts in development mode
+  - Run dev mode: `docker compose --profile dev up -d`
+  - Run prod mode: `docker compose --profile prod up -d` (no pgadmin = more secure)
+- Added optional **pgAdmin** service for database management in dev:
+  - Access: http://localhost:5050 (login: admin@todo.local / admin123)
+  - Helps visualize and query the database during development
+- Tested full behavior:
+  - Dev profile → Swagger + pgAdmin + hot reload
+  - Prod profile → only API + DB (minimal, secure)
+  - Restart policy test: manual stop api → see automatic restart (or not)
+  - Healthcheck in action: DB slow start → API waits patiently
+
+**Key Concepts & Learnings:**
+- **Healthcheck**: Prevents race conditions — API won't crash trying to connect to unready DB
+- **Restart Policy**:
+  - `on-failure`: Best for apps that crash due to bugs (retries with exponential backoff)
+  - `unless-stopped`: Best for critical services like databases (always up unless admin stops)
+  - `always`: Useful for stateless services, but can hide real issues
+- **Profiles**: Single compose file for multiple environments (dev/staging/prod) — reduces duplication
+  - `--profile dev` → runs services with "dev" profile
+  - Services without profile always run (unless explicitly excluded)
+- pgAdmin as dev-tool example → great for debugging DB issues locally
+
+**Commands Used Today:**
+- `docker compose --profile dev up -d` → start dev environment
+- `docker compose --profile prod up -d` → start production-like environment
+- `docker compose ps` → check running services
+- `docker compose stop api` → test restart policy
+- `docker compose logs db` → verify healthcheck logs
