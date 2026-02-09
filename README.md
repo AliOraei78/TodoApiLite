@@ -303,3 +303,23 @@ Here is the **English translation**, with only the Persian parts translated:
 - `docker compose ps` → check running services
 - `docker compose stop api` → test restart policy
 - `docker compose logs db` → verify healthcheck logs
+
+## Day 15: Testing Docker Containers with Testcontainers for .NET
+
+**Completed Today:**
+- Installed Testcontainers.PostgreSql for real integration testing
+- Wrote integration test using real PostgreSQL container
+- Tested CRUD operations against live database in container
+- Verified data persistence and EF Core behavior
+- Ran tests with `dotnet test` → green results
+
+**Key Learnings:**
+- Testcontainers starts real containers during tests (no mocks)
+- IAsyncLifetime for start/stop container lifecycle
+- WaitStrategy ensures DB is ready before tests run
+- Tests are 100% realistic (same as production DB)
+- Easy to extend for other services (Redis, RabbitMQ, etc.)
+
+**Commands Used:**
+- `dotnet add package Testcontainers.PostgreSql`
+- `dotnet test` → run integration tests

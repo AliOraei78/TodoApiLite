@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TodoApiLite.Api.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20260205133610_InitialCreate")]
+    [Migration("20260209150030_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
