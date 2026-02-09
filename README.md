@@ -245,3 +245,19 @@ Here is the **English translation**, with only the Persian parts translated:
 **Commands Used:**
 - git commit & push to trigger workflow
 - Check Actions tab in GitHub repo
+
+## Day 13: Docker in Production – Registry & Orchestration Basics
+
+**Completed Today:**
+- Ran private registry locally (`registry:2` on port 5000)
+- Tagged & pushed image to private registry (`localhost:5000/todo-api-lite:latest`)
+- Enabled insecure registry in daemon.json for testing
+- Deployed TodoApiLite to a remote server (VPS/EC2) with private registry
+- Learned orchestration basics: Swarm vs Kubernetes
+- Compared: Swarm (simple) vs K8s (powerful but complex)
+
+**Key Commands & Concepts:**
+- `docker run -d -p 5000:5000 registry:2` → local private registry
+- `docker tag & docker push localhost:5000/image:latest`
+- Insecure registry: add to daemon.json and restart Docker
+- Production deployment: build on CI → push to registry → pull on server
